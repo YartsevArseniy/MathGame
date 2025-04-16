@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
     final MathGame game;
     private Player player;
     private Background[] backgrounds;
-    private float speedX = 0f, timeToUpdateSpeed = 0f, speed2 = 0.01f;
+    private float speedX = 0f, timeToUpdateSpeed = 0f, speed2 = 0.2f;
     private MathTasks mathTasks;
     private Texture score;
     private ButtonReal[] buttons;
@@ -85,9 +85,9 @@ public class GameScreen implements Screen {
         }
         mathTasks.update(speedX, delta, player.getX());
 
-        if(timeToUpdateSpeed > 15f){
+        if(timeToUpdateSpeed > 5f){
             timeToUpdateSpeed = 0f;
-            speedX+=10;
+            speedX+=0.2f;
             /*
         for (int x : mathTasks.questions) {
             System.out.print(x + " ");
