@@ -23,13 +23,15 @@ public class GameScreen implements Screen {
     final MathGame game;
     private Player player;
     private Background[] backgrounds;
-    private float speedX = 0f, timeToUpdateSpeed = 0f, speed2 = 0.2f;
+    private float speedX = 0f, timeToUpdateSpeed = 0f, speedX2 = 0.15f, deltaSpeedX = 0.1f;
     private MathTasks mathTasks;
     private Texture score;
     private ButtonReal[] buttons;
     private Vector2 touchPos;
     private int cycleWrong = 0;
+    private int cycleTrue = 0, cycleTrueToUpdateSpeed = 5;
     private int record;
+    private float recordX = 0f;
 
 
     public GameScreen(final MathGame game, int record){
@@ -85,18 +87,20 @@ public class GameScreen implements Screen {
         }
         mathTasks.update(speedX, delta, player.getX());
 
+        /*
         if(timeToUpdateSpeed > 5f){
             timeToUpdateSpeed = 0f;
-            speedX+=0.2f;
-            /*
+            speedX+=deltaSpeedX;
+
         for (int x : mathTasks.questions) {
             System.out.print(x + " ");
             }
         System.out.println(mathTasks.getCurrentAnswer());
-             */
         }
+        */
+
         if(timeToUpdateSpeed > 3f && speedX < 1)
-            speedX=speed2;
+            speedX=speedX2;
 
         for (int i = 0; i < 4; i++) {
             buttons[i].update(touchPos.x, touchPos.y, Gdx.input.justTouched());
@@ -109,6 +113,7 @@ public class GameScreen implements Screen {
                     mathTasks.setTaskI(mathTasks.getTaskI()+1);
                     buttons[i].colorUpdate(true);
                     cycleWrong = 0;
+                    cycleTrue++;
                 }
                 else{
                     buttons[i].colorUpdate(false);
@@ -122,6 +127,11 @@ public class GameScreen implements Screen {
             this.dispose();
             game.setScreen(new MainMenuScreen(game, Math.max(mathTasks.getTaskI()-2, record)));
         }
+        if (cycleTrue > cycleTrueToUpdateSpeed && speedX > 0){
+            cycleTrue = 0;
+            speedX+=deltaSpeedX;
+        }
+        recordX = 4.75f-((String.valueOf(mathTasks.getTaskI()-2).length()/2+String.valueOf(mathTasks.getTaskI()-2).length()%2-1)*0.2f-0.2f);
     }
 
     public void draw(float delta){
@@ -133,7 +143,8 @@ public class GameScreen implements Screen {
         mathTasks.draw(game.batch, game.font);
 
         game.batch.draw(score,2.5f, 16.5f, 5, 2.5f);
-        game.font.draw(game.batch, String.valueOf(mathTasks.getTaskI()-2), 4.5f, 18);
+
+        game.font.draw(game.batch, String.valueOf(mathTasks.getTaskI()-2), recordX, 18);
         for (int i = 0; i < 4; i++) {
             buttons[i].draw(game.batch, game.font);
         }

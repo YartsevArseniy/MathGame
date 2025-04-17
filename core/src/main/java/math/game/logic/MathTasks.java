@@ -25,7 +25,7 @@ public class MathTasks {
         this.r = r;
 
         for(int i = 0; i < 10; i++){
-            xTasks[i] = i*2+0.1f;
+            xTasks[i] = i*2;
             tasks[i] = createTask(i);
         }
         this.taskI = taskI;
@@ -49,7 +49,7 @@ public class MathTasks {
 
     public void draw(SpriteBatch batch, BitmapFont font){
         for(int i = 0; i < 10; i++){
-            font.draw(batch, tasks[i], xTasks[i], 7.6f);
+            font.draw(batch, tasks[i], xTasks[i]+0.01f, 7.6f);
         }
     }
 

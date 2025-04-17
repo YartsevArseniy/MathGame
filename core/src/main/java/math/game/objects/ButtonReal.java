@@ -50,6 +50,7 @@ public class ButtonReal {
 
     public void setText(String s){
         textX = (button.width*5/2-(s.length()/2+s.length()%2-1))*0.2f-0.2f;
+        //textX = 0;
         str = s;
     }
     public String getText(){
