@@ -23,13 +23,13 @@ public class GameScreen implements Screen {
     final MathGame game;
     private Player player;
     private Background[] backgrounds;
-    private float speedX = 0f, timeToUpdateSpeed = 0f, speedX2 = 0.15f, deltaSpeedX = 0.1f;
+    private float speedX = 0f, timeToUpdateSpeed = 0f, speedX2 = 0.2f, deltaSpeedX = 0.5f;
     private MathTasks mathTasks;
     private Texture score;
     private ButtonReal[] buttons;
     private Vector2 touchPos;
     private int cycleWrong = 0;
-    private int cycleTrue = 0, cycleTrueToUpdateSpeed = 5;
+    private int cycleTrue = 0, cycleTrueToUpdateSpeed = 1;
     private int record;
     private float recordX = 0f;
 
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
 
         buttons = new ButtonReal[4];
         for (int i = 0; i < 4; i++) {
-            buttons[i] = new ButtonReal(new Texture("image/button2.png"), 2, 2, 0.375f*(i+1)+2*i, 2.5f);
+            buttons[i] = new ButtonReal(new Texture("image/button2.png"), 2, 2, 0.375f*(i+1)+2*i, 2.5f, game.glyphLayout, game.font);
             buttons[i].setText(String.valueOf(mathTasks.questions[i]));
         }
 
@@ -127,11 +127,13 @@ public class GameScreen implements Screen {
             this.dispose();
             game.setScreen(new MainMenuScreen(game, Math.max(mathTasks.getTaskI()-2, record)));
         }
-        if (cycleTrue > cycleTrueToUpdateSpeed && speedX > 0){
+        if (cycleTrue >= cycleTrueToUpdateSpeed && speedX > 0){
             cycleTrue = 0;
             speedX+=deltaSpeedX;
         }
-        recordX = 4.75f-((String.valueOf(mathTasks.getTaskI()-2).length()/2+String.valueOf(mathTasks.getTaskI()-2).length()%2-1)*0.2f-0.2f);
+        game.glyphLayout.setText(game.font, String.valueOf(mathTasks.getTaskI()-2));
+        recordX = 5-game.glyphLayout.width;
+
     }
 
     public void draw(float delta){
@@ -144,7 +146,10 @@ public class GameScreen implements Screen {
 
         game.batch.draw(score,2.5f, 16.5f, 5, 2.5f);
 
+        game.font.getData().setScale(0.02f);
         game.font.draw(game.batch, String.valueOf(mathTasks.getTaskI()-2), recordX, 18);
+        game.font.getData().setScale(0.0105f);
+
         for (int i = 0; i < 4; i++) {
             buttons[i].draw(game.batch, game.font);
         }
@@ -182,5 +187,6 @@ public class GameScreen implements Screen {
         for (int i = 0; i < 4; i++) {
             buttons[i].dispose();
         }
+        score.dispose();
     }
 }

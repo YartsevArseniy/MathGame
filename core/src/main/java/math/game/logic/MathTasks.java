@@ -49,7 +49,11 @@ public class MathTasks {
 
     public void draw(SpriteBatch batch, BitmapFont font){
         for(int i = 0; i < 10; i++){
+            if (tasks[i].length() > 9)
+                font.getData().setScale(0.009f);
             font.draw(batch, tasks[i], xTasks[i]+0.01f, 7.6f);
+            if (tasks[i].length() > 9)
+                font.getData().setScale(0.0105f);
         }
     }
 
@@ -107,7 +111,7 @@ public class MathTasks {
           x = a+b;
         }
         else if (typeTask == 1) { // a*b+c
-            s += String.valueOf(a) + '*';
+            s += String.valueOf(a)+'*';
             if(b < 0)
                 s+=numInStr(b,1);
             else
@@ -117,7 +121,7 @@ public class MathTasks {
             x = a*b+c;
         }
         else if (typeTask == 2) { // c*(a+b)
-            s += String.valueOf(c) + "*("+String.valueOf(a)+numInStr(b, 0)+")";
+            s += String.valueOf(c) + "("+String.valueOf(a)+numInStr(b, 0)+")";
 
             x = (a+b)*c;
         }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -13,9 +14,11 @@ public class ButtonReal {
     private String str;
     private boolean isPressed;
     private Color color;
-    private float textX = 0f;
+    private float textX = 0f, textY;
+    private GlyphLayout glyphLayout;
+    private BitmapFont font;
 
-    public ButtonReal(Texture textureButton, float width, float height, float x, float y){
+    public ButtonReal(Texture textureButton, float width, float height, float x, float y, GlyphLayout glyphLayout, BitmapFont font){
         this.textureButton = textureButton;
 
         button =  new Rectangle(x, y, width, height);
@@ -24,6 +27,8 @@ public class ButtonReal {
         str = "asd";
 
         color = Color.GREEN;
+        this.glyphLayout = glyphLayout;
+        this.font = font;
     }
 
     public void update(float xMouse, float yMouse, boolean isTouched){
@@ -44,13 +49,15 @@ public class ButtonReal {
             batch.setColor(color);
         batch.draw(textureButton, button.x, button.y, button.width, button.height);
         batch.setColor(color);
-        font.draw(batch, str, button.x+textX, button.y+button.height/2);
+        font.draw(batch, str, button.x+textX, button.y+textY);
         batch.setColor(Color.WHITE);
     }
 
     public void setText(String s){
-        textX = (button.width*5/2-(s.length()/2+s.length()%2-1))*0.2f-0.2f;
-        //textX = 0;
+       // textX = (button.width*5/2-(s.length()/2+s.length()%2-1))*0.2f-0.2f;
+        glyphLayout.setText(font, s);
+        textX = button.width/2-glyphLayout.width/1.3f;
+        textY = button.height/2+glyphLayout.height/2;
         str = s;
     }
     public String getText(){

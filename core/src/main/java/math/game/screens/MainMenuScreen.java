@@ -30,10 +30,10 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         background = new Texture("image/backgrounds/menubackground.png");
 
-        button1 = new ButtonReal(new Texture("image/button1.png"), 4, 2, 3f, 11f);
+        button1 = new ButtonReal(new Texture("image/button1.png"), 4, 2, 3f, 11f, game.glyphLayout, game.font);
         button1.setText("PLAY");
 
-        button2 = new ButtonReal(new Texture("image/button1.png"), 3, 1.5f, 3.5f, 2);
+        button2 = new ButtonReal(new Texture("image/button1.png"), 3, 1.5f, 3.5f, 2, game.glyphLayout, game.font);
         button2.setText("EXIT");
 
         touchPos = new Vector2();
@@ -67,16 +67,19 @@ public class MainMenuScreen implements Screen {
         //game.font.draw(game.batch, "asd", 1, 1);
         game.batch.draw(background,0,0,10,20);
 
-
+        game.font.getData().setScale(0.02f);
         button1.draw(game.batch, game.font);
         button2.draw(game.batch, game.font);
+        game.font.getData().setScale(0.0105f);
 
         game.font.draw(game.batch, "RECORD: " + String.valueOf(record), 4, 19);
 
         game.batch.end();
 
-        if(button1.isJustPressed())
+        if(button1.isJustPressed()){
+            dispose();
             game.setScreen(new GameScreen(game, record));
+        }
         if(button2.isJustPressed()){
             dispose();
             Gdx.app.exit();
@@ -106,5 +109,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         background.dispose();
+        button1.dispose();
+        button2.dispose();
     }
 }

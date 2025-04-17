@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -18,8 +19,10 @@ public class MathGame extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
     public FitViewport viewport;
+    public GlyphLayout glyphLayout;
     private  float scale;
     private Texture fontTexture;
+
 
     @Override
     public void create() {
@@ -28,6 +31,7 @@ public class MathGame extends Game {
 
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("font.fnt"), new TextureRegion(fontTexture), false);
+        glyphLayout = new GlyphLayout();
         viewport = new FitViewport(10, 20);
 
         scale = Gdx.graphics.getHeight()/Gdx.graphics.getWidth() >= 2
@@ -49,5 +53,6 @@ public class MathGame extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        fontTexture.dispose();
     }
 }
