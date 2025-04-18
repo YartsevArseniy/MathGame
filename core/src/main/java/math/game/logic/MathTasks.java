@@ -49,11 +49,14 @@ public class MathTasks {
 
     public void draw(SpriteBatch batch, BitmapFont font){
         for(int i = 0; i < 10; i++){
-            if (tasks[i].length() > 9)
+            if (tasks[i].length() > 9){
                 font.getData().setScale(0.009f);
-            font.draw(batch, tasks[i], xTasks[i]+0.01f, 7.6f);
-            if (tasks[i].length() > 9)
+                font.draw(batch, tasks[i], xTasks[i]+0.1f, 7.6f);
                 font.getData().setScale(0.0105f);
+
+            }
+            else
+                font.draw(batch, tasks[i], xTasks[i]+0.01f, 7.6f);
         }
     }
 

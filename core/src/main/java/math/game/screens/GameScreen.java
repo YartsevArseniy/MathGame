@@ -23,15 +23,16 @@ public class GameScreen implements Screen {
     final MathGame game;
     private Player player;
     private Background[] backgrounds;
-    private float speedX = 0f, timeToUpdateSpeed = 0f, speedX2 = 0.2f, deltaSpeedX = 0.5f;
+    private float speedX = 0f, timeToUpdateSpeed = 0f, speedX2 = 0.2f, deltaSpeedX = 0.05f;
     private MathTasks mathTasks;
     private Texture score;
     private ButtonReal[] buttons;
     private Vector2 touchPos;
     private int cycleWrong = 0;
-    private int cycleTrue = 0, cycleTrueToUpdateSpeed = 1;
+    private int cycleTrue = 0, cycleTrueToUpdateSpeed = 3;
     private int record;
     private float recordX = 0f;
+
 
 
     public GameScreen(final MathGame game, int record){
@@ -99,8 +100,10 @@ public class GameScreen implements Screen {
         }
         */
 
-        if(timeToUpdateSpeed > 3f && speedX < 1)
+        if(timeToUpdateSpeed > 3f && speedX2 > 0){
             speedX=speedX2;
+            speedX2 = -123223;
+        }
 
         for (int i = 0; i < 4; i++) {
             buttons[i].update(touchPos.x, touchPos.y, Gdx.input.justTouched());
@@ -128,12 +131,11 @@ public class GameScreen implements Screen {
             game.setScreen(new MainMenuScreen(game, Math.max(mathTasks.getTaskI()-2, record)));
         }
         if (cycleTrue >= cycleTrueToUpdateSpeed && speedX > 0){
-            cycleTrue = 0;
             speedX+=deltaSpeedX;
+            cycleTrue = 0;
         }
         game.glyphLayout.setText(game.font, String.valueOf(mathTasks.getTaskI()-2));
         recordX = 5-game.glyphLayout.width;
-
     }
 
     public void draw(float delta){

@@ -56,7 +56,7 @@ public class ButtonReal {
     public void setText(String s){
        // textX = (button.width*5/2-(s.length()/2+s.length()%2-1))*0.2f-0.2f;
         glyphLayout.setText(font, s);
-        textX = button.width/2-glyphLayout.width/1.3f;
+        textX = button.width/2-glyphLayout.width/2f;
         textY = button.height/2+glyphLayout.height/2;
         str = s;
     }

@@ -2,6 +2,7 @@ package math.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -20,7 +21,7 @@ public class MathGame extends Game {
     public BitmapFont font;
     public FitViewport viewport;
     public GlyphLayout glyphLayout;
-    private  float scale;
+    public Preferences preferencesRecord;
     private Texture fontTexture;
 
 
@@ -34,15 +35,13 @@ public class MathGame extends Game {
         glyphLayout = new GlyphLayout();
         viewport = new FitViewport(10, 20);
 
-        scale = Gdx.graphics.getHeight()/Gdx.graphics.getWidth() >= 2
-            ? viewport.getWorldWidth()/Gdx.graphics.getWidth()
-            : viewport.getWorldHeight()/Gdx.graphics.getHeight();
-
         font.setUseIntegerPositions(false);
 
         font.getData().setScale(0.0105f);
 
-        this.setScreen(new MainMenuScreen(this, 0));
+        preferencesRecord = Gdx.app.getPreferences("record");
+
+        this.setScreen(new MainMenuScreen(this, preferencesRecord.getInteger("record", 0)));
     }
     @Override
     public void render() {
